@@ -1,7 +1,13 @@
-from datetime import datetime
-from discord import Intents
+from asyncio import sleep
+from glob import glob
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from discord.ext.commands import Bot as BotBase
+from discord import Embed , File
+from datetime import datetime
+from discord.ext.commands import (CommandNotFound, BadArgument, MissingRequiredArgument,CommandOnCooldown)
+from apscheduler.triggers.cron import CronTrigger
+from discord.errors import HTTPException, Forbidden
+
 
 PREFIX = "+"
 OWNER_IDS = [534443142431375381]
@@ -13,7 +19,7 @@ class Bot(BotBase):
 		self.guild = None
 		self.scheduler = AsyncIOScheduler()
 
-		super().__init__(command_prefex = PREFIX,owner_ids = OWNER_IDS)
+		super().__init__(command_prefix=PREFIX,owner_ids=OWNER_IDS)
 
 	def run(self, version):
 		self.VERSION = version
@@ -33,29 +39,21 @@ class Bot(BotBase):
 	async def on_ready(self):
 		if not self.ready:
 			self.ready = True
+
 			print("bot ready")
 
 			channel = self.get_channel(776501954054193223)
 			await channel.send("Now online!")
 
-			embed = Embed(title = 'Now online!', 
-			description = "Bot is now online!", 
-			color = "0xFF0000",
-			timespan)
-			fields = [("Name", "Value", True),
-					  ("Another field", "This field is next to the other one.")
-					  ("A non-inline field", "This field will apear on it's own row.", False)]
-			
-			for name, value, inline in fields:
-				embed.add.tield(name = name, value = value, inline = inline)
-				embed.set_footer(text = "This is a footer!")
-			await channel.send(embed = embed)
-			
+			embed = Embed(title="Im here", description="Bot is online",colour=0xFF0000, timestamp=datetime.utcnow())
+			fields=[("Vladyslav Petriuk , Alona Kovtun , Vladyslava Tokar","Authors",True),("     w60083                     w60065                 w60092","Indexs",False),("Commands","----------------------------------------------------------------------------------",False),("Hello","Say +hi",True),("echo","+echo message",True),("punch","+punch member reason",True)]
+			for name ,value,inline in fields:
+				embed.add_field(name=name,value=value,inline=inline)
+			await channel.send(embed=embed)
 		else:
 			print("bot recconected")
 
 	async def on_message(self, message):
 		pass
 
- bot = Bot()
-	
+bot=Bot()
