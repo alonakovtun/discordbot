@@ -1,7 +1,7 @@
 from os.path import isfile
 from sqlite import connect
 
-#from apscheduler.triggers.cron import CronTrigger
+from apscheduler.triggers.cron import CronTrigger
 
 DB_PATH = "./data/db/database.db"
 BUILD_PATH = "./data/db/build.sql"
