@@ -80,9 +80,6 @@ class Bot(BotBase):
 	async def on_command_error(self, ctx, exc):
 		if isinstanse(exc, CommandNotFound):
 			pass
-
-		elif hasattr(exc, "original"):
-			raise exc.original
 		else:
 			raise exc
 
@@ -114,6 +111,8 @@ class Bot(BotBase):
 			print("bot recconected")
 
 	async def on_message(self, message):
-		pass
+		#new
+		if not message.authors.bot:
+			await self.process_commands(message)
 
 bot=Bot()
