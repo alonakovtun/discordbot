@@ -22,9 +22,13 @@ class Fun(Cog):
 		await ctx.send(" + ".join([str(r) for r in rolls]) + f" = {sum(rolls)}")
 
 	@command(name="slap", aliases=["hit"])
-	async def slap_member(self, ctx, member: Member, *, reason: Optional[str] = "no reason"):
-		await ctx.send(f"{ctx.author.nick} slapped {member.mention} for {reason}!")
+	async def slap_member(self, ctx, member: Member, *, reason: Optional[str] = "for no reason"):
+		await ctx.send(f"{ctx.author.display_name} slapped {member.mention} {reason}!")
 
+	@command(name="echo", aliases=["say"])
+	async def echo_message(self, ctx, *, message):
+		await ctx.message.delete()
+		await ctx.send(message)
 	
 	@Cog.listener()
 	async def on_ready(self):
