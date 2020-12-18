@@ -10,6 +10,7 @@ from discord.ext.commands import Bot as BotBase
 from discord.ext.commands import Context
 from discord.ext.commands import (CommandNotFound, BadArgument, MissingRequiredArgument,
 								  CommandOnCooldown)
+#from discord.ext.commands import when_mentioned_or command, has_permissions
 
 #from ..db import db
 
@@ -18,6 +19,11 @@ PREFIX = "+"
 OWNER_IDS = [534443142431375381]
 COGS = [path.split("\\")[-1][:-3] for path in glob("./lib/cogs/*.py")]
 IGNORE_EXCEPTIONS = (CommandNotFound, BadArgument)
+
+
+#def get_prefix(bot, message):
+#	prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?", message.guild.id)
+#	return when_mentioned_or(prefix)(bot, message)
 
 
 class Ready(object):
@@ -76,6 +82,9 @@ class Bot(BotBase):
 
 		else:
 			await ctx.send("I'm not ready to recieve commands. Please wait a few seconds.")
+
+	async def rules_reminder(self):
+		await self.stdout.send("Remember to adhere to the rules!")
 
 
 	async def on_connect(self):
