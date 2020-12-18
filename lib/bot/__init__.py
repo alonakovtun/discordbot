@@ -5,9 +5,11 @@ from glob import glob
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 from discord import Embed, File
+from discord.errors import HTTPException, Forbidden
 from discord.ext.commands import Bot as BotBase 
 from discord.ext.commands import Context
-from discord.ext.commands import CommandNotFound 
+from discord.ext.commands import (CommandNotFound, BadArgument, MissingRequiredArgument,
+								  CommandOnCooldown)
 
 #from ..db import db
 
@@ -15,6 +17,7 @@ from discord.ext.commands import CommandNotFound
 PREFIX = "+"
 OWNER_IDS = [534443142431375381]
 COGS = [path.split("\\")[-1][:-3] for path in glob("./lib/cogs/*.py")]
+IGNORE_EXCEPTIONS = (CommandNotFound, BadArgument)
 
 
 class Ready(object):
@@ -89,10 +92,23 @@ class Bot(BotBase):
 		raise
 
 	async def on_command_error(self, ctx, exc):
-		if isinstanse(exc, CommandNotFound):
+		if any([isinstanse(exc, error) for error in IGNORE_EXCEPTIONS]):
 			pass
+
+		elif isinstanse(exc, MissingRequiredArgument):
+			await ctx.send("One or more required arguments are missing. ")
+
+		elif isinstanse(exc, CommandOnCooldown):
+			await ctx.send(f"That command is on {str(exc.cooldown.type).split('.')[-1]} cooldown. Try again in {exc.retry_after:,.2f} secs.")
+
+		elif isinstanse(exc.original, HTTPException):
+			await ctx.send("Unable to send message.")
+
+		elif isinstanse(exc.original, Forbidden):
+			await ctx.send("I do not have permission  to do that. ")
+
 		else:
-			raise exc
+			raise exc.original
 
 	async def on_ready(self):
 		if not self.ready:
