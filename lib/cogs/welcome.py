@@ -1,5 +1,6 @@
+from discord import Forbidden
 from discord.ext.commands import Cog
-from discord.ext.commands import commands
+from discord.ext.commands import command
 
 
 class Welcome(Cog):
@@ -13,7 +14,17 @@ class Welcome(Cog):
 
 	@Cog.listener()
 	async def on_member_join(self, member):
-		pass
+		db.execute("INSERT INTO exp(UserID) VALUES (?)", member.id)
+		await self.bot.get_channel(789501683624706080).send(f"Welcome to **{member.guild.name}** {member.menthion}! Head over to <#776501954054193225> to say hi!")
+
+		try:
+			await member.send(f"Welcome to **{member.fuild.name}**! Enjoy your stay!")
+
+		except Forbidden:
+			pass
+
+		await member.add_roles(*(member.guild.get_role(id_) for id_ in (534443142431375381)))
+
 
 	@Cog.listener()
 	async def on_member_leave(self, member):
