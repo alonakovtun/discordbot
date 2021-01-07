@@ -6,11 +6,11 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 from discord import Embed, File, DMChannel
 from discord.errors import HTTPException, Forbidden
-from discord.ext.commands import Bot as BotBase 
+from discord.ext.commands import Bot as BotBase
 from discord.ext.commands import Context
 from discord.ext.commands import (CommandNotFound, BadArgument, MissingRequiredArgument,
 								  CommandOnCooldown)
-#from discord.ext.commands import when_mentioned_or command, has_permissions
+from discord.ext.commands import when_mentioned_or, command, has_permissions
 
 #from ..db import db
 
@@ -129,7 +129,7 @@ class Bot(BotBase):
 			channel = self.get_channel(776501954054193223)  
 			
 			embed = Embed(title="Im here", description="Bot is online",colour=0xFF0000, timestamp=datetime.utcnow())
-			fields=[("Vladyslav Petriuk , Alona Kovtun , Vladyslava Tokar","Authors",True),("     w60083                     w60065                 w60092","Indexs",False),("Commands","----------------------------------------------------------------------------------",False),("Hello","Say +hi",True),("echo","+echo message",True),("punch","+punch member reason",True)]
+			fields=[("Vladyslav Petriuk , Alona Kovtun , Vladyslava Tokar","Authors",True),("     w60083                     w60065                 w60092","Indexs",False),("Commands","----------------------------------------------------------------------------------",False),("Hello","Say +hi",True),("echo","+echo message",True),("punch","+punch member reason",True),("Facts", "+fact animal", True)]
 			for name ,value,inline in fields:
 				embed.add_field(name=name,value=value,inline=inline)
 			embed.set_author(name="Bot", icon_url=self.guild.icon_url)
