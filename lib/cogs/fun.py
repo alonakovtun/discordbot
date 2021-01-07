@@ -1,11 +1,11 @@
 from random import choice, randint
-from typing import Optinal
+from typing import Optional
 
 from aiohttp import request
 from discord import Member, Embed
 from discord.ext.commands import Cog, BucketType
 from discord.ext.commands import BadArgument
-from discord.ext.commands import commands, cooldown
+from discord.ext.commands import command, cooldown
 
 class Fun(Cog):
 	def __init__(self, bot):
@@ -37,7 +37,7 @@ class Fun(Cog):
 			await ctx.send("I can't find that member")
 
 	@command(name="echo", aliases=["say"])
-	@cooldown(1, 15, BucketType)
+	@cooldown(1, 15, BucketType.guild)
 	async def echo_message(self, ctx, *, message):
 		await ctx.message.delete()
 		await ctx.send(message)

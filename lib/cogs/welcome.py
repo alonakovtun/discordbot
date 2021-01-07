@@ -31,6 +31,6 @@ class Welcome(Cog):
 		pass
 
 def setup(bot):
-	bot add_cog(Welcome(bot))
+	bot.add_cog(Welcome(bot))
 
 
